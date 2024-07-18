@@ -34,3 +34,7 @@ label {
 .address {
   margin-top: 10px;
 }
+
+.btn-primary {
+  @apply px-4 py-2 font-bold text-black rounded bg-sky-300 hover:bg-sky-400;
+}

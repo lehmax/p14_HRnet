@@ -6,8 +6,10 @@ const Root = () => {
   return (
     <>
       <SideBar />
-      <main className="p-4 sm:ml-64">
-        <Outlet />
+      <main className="h-screen p-12 sm:ml-72 bg-slate-50">
+        <div className="flex flex-col gap-8 p-10 bg-white border rounded-md border-slate-100">
+          <Outlet />
+        </div>
       </main>
     </>
   )

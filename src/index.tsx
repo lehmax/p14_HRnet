@@ -7,7 +7,6 @@ import Error404 from './pages/Error404'
 import Root from './pages/Root.js'
 
 import AddEmployee from './pages/AddEmployee/index.js'
-import Dashboard from './pages/Dashboard'
 import Employees from './pages/Employees/index.js'
 import './styles/main.css'
 
@@ -17,17 +16,19 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       {
-        index: true,
-        element: <Dashboard />,
-      },
-      {
         path: 'employees',
-        element: <Employees />,
+        children: [
+          {
+            index: true,
+            element: <Employees />,
+          },
+          {
+            path: 'add',
+            element: <AddEmployee />,
+          },
+        ],
       },
-      {
-        path: 'add-employee',
-        element: <AddEmployee />,
-      },
+      {},
       {
         path: '*',
         element: <Error404 />,

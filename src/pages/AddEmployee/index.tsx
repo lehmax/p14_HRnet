@@ -1,14 +1,12 @@
 import { FormEvent } from 'react'
 import { NavLink } from 'react-router-dom'
+import Title from '../../components/Title'
 
 const AddEmployee = () => (
   <>
-    <section>
-      <h1>Add Employee</h1>
-      <NavLink
-        className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-        to="/employees"
-      >
+    <section className="flex flex-row items-center gap-4">
+      <Title>Add Employee</Title>
+      <NavLink className="btn-primary" to="/employees">
         Current employees
       </NavLink>
     </section>
@@ -63,10 +61,7 @@ const EmployeeForm = () => {
           <option>Legal</option>
         </select>
       </form>
-      <button
-        className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-        type="submit"
-      >
+      <button className="btn-primary" type="submit">
         Save
       </button>
     </>

@@ -1,4 +1,6 @@
+import { UserPlus } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
+import Title from '../../components/Title'
 import useDocumentTitle from '../../hooks/useDocumentTitle'
 
 const Employees = () => {
@@ -6,12 +8,13 @@ const Employees = () => {
 
   return (
     <>
-      <section>
-        <h1>Current Employees</h1>
+      <section className="flex flex-row items-center gap-4">
+        <Title>Current Employees</Title>
         <NavLink
-          className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-          to="/add-employee"
+          className="flex items-center gap-2 btn-primary "
+          to="/employees/add"
         >
+          <UserPlus strokeWidth={1.5} />
           Add employee
         </NavLink>
       </section>
