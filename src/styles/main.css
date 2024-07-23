@@ -29,6 +29,7 @@ label {
   display: block;
   margin-top: 1rem;
   margin-bottom: 10px;
+  font-weight: 500;
 }
 
 .address {
@@ -36,5 +37,9 @@ label {
 }
 
 .btn-primary {
-  @apply px-4 py-2 font-bold text-black rounded bg-sky-300 hover:bg-sky-400;
+  @apply px-4 py-2 font-bold text-black bg-red-300 rounded hover:bg-red-400;
+}
+
+input {
+  @apply w-full px-3 py-2 border rounded border-slate-200;
 }
