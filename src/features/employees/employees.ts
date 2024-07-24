@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+import { initEmployees } from './data'
 import { Employee } from './types'
 
 export interface EmployeesState {
@@ -7,7 +8,7 @@ export interface EmployeesState {
 }
 
 const initialState: EmployeesState = {
-  employees: [],
+  employees: initEmployees,
 }
 
 export const employeesSlice = createSlice({

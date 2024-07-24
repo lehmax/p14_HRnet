@@ -1,4 +1,9 @@
 {
+  "compilerOptions": {
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true
+  },
   "files": [],
   "references": [
     {

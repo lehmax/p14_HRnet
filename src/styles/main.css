@@ -25,7 +25,8 @@
   justify-content: center;
 }
 
-label {
+label,
+.react-aria-Label {
   display: block;
   margin-top: 1rem;
   margin-bottom: 10px;

@@ -2,6 +2,7 @@ import { FormEvent } from 'react'
 import { useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
+import { Select, SelectItem } from '../../components/Select'
 import Title from '../../components/Title'
 import { addEmployee } from '../../features/employees/employees'
 import useDocumentTitle from '../../hooks/useDocumentTitle'
@@ -84,7 +85,7 @@ const EmployeeForm = () => {
             <input id="street" name="street" type="text" />
           </div>
 
-          <div className="flex w-full gap-4">
+          <div className="flex items-center w-full gap-4">
             <div className="w-full">
               <label htmlFor="city">City</label>
               <input id="city" name="city" type="text" />
@@ -96,28 +97,13 @@ const EmployeeForm = () => {
             </div>
 
             <div className="w-full">
-              <label htmlFor="state">State</label>
-              <select name="state" id="state">
-                <option value="">Select a state</option>
-                {states.map(state => (
-                  <option key={state.abbreviation} value={state.abbreviation}>
-                    {state.name}
-                  </option>
-                ))}
-              </select>
+              <StatesSelect />
             </div>
           </div>
         </fieldset>
 
         <div>
-          <label htmlFor="department">Department</label>
-          <select name="department" id="department">
-            <option>Sales</option>
-            <option>Marketing</option>
-            <option>Engineering</option>
-            <option>Human Resources</option>
-            <option>Legal</option>
-          </select>
+          <DepartmentSelect />
         </div>
 
         <div>
@@ -127,6 +113,48 @@ const EmployeeForm = () => {
         </div>
       </form>
     </>
+  )
+}
+
+const StatesSelect = () => {
+  const items = states.map(state => ({ ...state, id: state.abbreviation }))
+
+  return (
+    <Select
+      label="State"
+      name="state"
+      id="state"
+      items={items}
+      placeholder="Select state"
+    >
+      {items.map(({ name }) => (
+        <SelectItem>{name}</SelectItem>
+      ))}
+    </Select>
+  )
+}
+
+const DepartmentSelect = () => {
+  const items = [
+    { id: 'sales', name: 'Sales' },
+    { id: 'marketing', name: 'Marketing' },
+    { id: 'engineering', name: 'Engineering' },
+    { id: 'human-resources', name: 'Human Resources' },
+    { id: 'legal', name: 'Legal' },
+  ]
+
+  return (
+    <Select
+      label="Department"
+      name="department"
+      id="department"
+      items={items}
+      placeholder="Select department"
+    >
+      {items.map(({ name }) => (
+        <SelectItem>{name}</SelectItem>
+      ))}
+    </Select>
   )
 }
 
