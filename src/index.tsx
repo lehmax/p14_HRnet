@@ -1,9 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom'
 
-import { store } from './store/store.js'
+import { store } from './store.js'
 
 import AddEmployee from './pages/AddEmployee/index.js'
 import Employees from './pages/Employees/index.js'
@@ -17,6 +17,10 @@ const router = createBrowserRouter([
     path: '/',
     element: <Root />,
     children: [
+      {
+        index: true,
+        loader: async () => redirect('/employees'),
+      },
       {
         path: 'employees',
         children: [

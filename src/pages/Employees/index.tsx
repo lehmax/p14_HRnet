@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 import Title from '../../components/Title'
 import useDocumentTitle from '../../hooks/useDocumentTitle'
 
-import { EmployeesState } from '../../features/employees/employees'
+import { EmployeesState } from '../../features/employees/employeesStore'
 
 const Employees = () => {
   const employees = useSelector((state: EmployeesState) => state.employees)

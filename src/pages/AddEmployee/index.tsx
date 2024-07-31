@@ -1,10 +1,15 @@
-import { FormEvent } from 'react'
+import { FormEvent, PropsWithChildren } from 'react'
+import * as RAC from 'react-aria-components'
 import { useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
+import { BriefcaseBusiness, CircleUserRound, House } from 'lucide-react'
+import { DatePicker } from '../../components/DatePicker'
+import { FieldError } from '../../components/FieldError'
 import { Select, SelectItem } from '../../components/Select'
+import { TextField } from '../../components/TextField'
 import Title from '../../components/Title'
-import { addEmployee } from '../../features/employees/employees'
+import { addEmployee } from '../../features/employees/employeesStore'
 import useDocumentTitle from '../../hooks/useDocumentTitle'
 import { states } from '../../utils/states'
 
@@ -15,7 +20,7 @@ const AddEmployee = () => {
     <>
       <section className="flex flex-row items-center gap-4">
         <Title>Add Employee</Title>
-        <NavLink className="btn-primary" to="/employees">
+        <NavLink className="btn-secondary" to="/employees">
           Current employees
         </NavLink>
       </section>
@@ -50,69 +55,80 @@ const EmployeeForm = () => {
     dispatch(addEmployee(formValues))
   }
 
+  interface FieldsetProps extends PropsWithChildren {
+    title: string
+    icon?: React.ReactNode
+  }
+
+  const Fieldset = ({ title, icon, children }: FieldsetProps) => {
+    return (
+      <fieldset className="my-4">
+        <span className="flex items-center gap-1">
+          {icon}
+          <legend className="text-lg font-bold">{title}</legend>
+        </span>
+        <div>{children}</div>
+      </fieldset>
+    )
+  }
+
   return (
-    <>
-      <form
-        onSubmit={onSubmit}
-        action="#"
-        id="create-employee"
-        className="max-w-[66%] flex flex-col gap-4"
+    <RAC.Form onSubmit={onSubmit} className="flex flex-col">
+      <Fieldset
+        title="Personnal information"
+        icon={<CircleUserRound className="text-indigo-500" />}
       >
         <div className="flex w-full gap-4">
-          <div className="w-full">
-            <label htmlFor="first-name">First Name</label>
-            <input type="text" name="firstName" id="first-name" />
-          </div>
-          <div className="w-full">
-            <label htmlFor="last-name">Last Name</label>
-            <input type="text" name="lastName" id="last-name" />
-          </div>
+          <TextField
+            label="First Name"
+            name="firstName"
+            isRequired
+            fullWidth={true}
+          />
+          <TextField
+            label="Last Name"
+            name="LastName"
+            isRequired
+            fullWidth={true}
+          />
         </div>
-        <div>
-          <label htmlFor="date-of-birth">Date of Birth</label>
-          <input id="date-of-birth" name="dateOfBirth" type="text" />
+        <DatePicker
+          label="Date of Birth"
+          name="dateOfBirth"
+          id="date-of-birth"
+          isRequired
+        />
+      </Fieldset>
+      <Fieldset title="Address" icon={<House className="text-indigo-500" />}>
+        <TextField label="Street" name="street" fullWidth={true} isRequired />
+        <div className="flex items-center w-full gap-4">
+          <TextField label="City" name="city" isRequired />
+          <RAC.NumberField minValue={0} isRequired>
+            <RAC.Label>ZipCode</RAC.Label>
+            <RAC.Input className="flex items-center w-full px-3 py-2 border border-gray-200 rounded-md outline-none max-w-20 focus-visible:ring ring-indigo-500" />
+            <FieldError />
+          </RAC.NumberField>
         </div>
-        <div>
-          <label htmlFor="start-date">Start Date</label>
-          <input id="start-date" name="startDate" type="text" />
-        </div>
-
-        <fieldset className="address">
-          <legend>Address</legend>
-
-          <div>
-            <label htmlFor="street">Street</label>
-            <input id="street" name="street" type="text" />
-          </div>
-
-          <div className="flex items-center w-full gap-4">
-            <div className="w-full">
-              <label htmlFor="city">City</label>
-              <input id="city" name="city" type="text" />
-            </div>
-
-            <div>
-              <label htmlFor="zip-code">Zip Code</label>
-              <input id="zip-code" name="zipCode" type="number" />
-            </div>
-
-            <div className="w-full">
-              <StatesSelect />
-            </div>
-          </div>
-        </fieldset>
-
-        <div>
-          <DepartmentSelect />
-        </div>
-
-        <div>
-          <button className="btn-primary" type="submit">
-            Save
-          </button>
-        </div>
-      </form>
-    </>
+        <StatesSelect />
+      </Fieldset>
+      <Fieldset
+        title="Professional information"
+        icon={<BriefcaseBusiness className="text-indigo-500" />}
+      >
+        <DepartmentSelect />
+        <DatePicker
+          label="Start Date"
+          name="startDate"
+          id="start-date"
+          isRequired
+        />
+      </Fieldset>
+      <div className="right-0 place-self-end">
+        <RAC.Button className="btn-primary" type="submit">
+          Save
+        </RAC.Button>
+      </div>
+    </RAC.Form>
   )
 }
 
@@ -121,14 +137,15 @@ const StatesSelect = () => {
 
   return (
     <Select
+      isRequired
       label="State"
       name="state"
       id="state"
       items={items}
       placeholder="Select state"
     >
-      {items.map(({ name }) => (
-        <SelectItem>{name}</SelectItem>
+      {items.map(({ id, name }) => (
+        <SelectItem key={id}>{name}</SelectItem>
       ))}
     </Select>
   )
@@ -145,14 +162,15 @@ const DepartmentSelect = () => {
 
   return (
     <Select
+      isRequired
       label="Department"
       name="department"
       id="department"
       items={items}
       placeholder="Select department"
     >
-      {items.map(({ name }) => (
-        <SelectItem>{name}</SelectItem>
+      {items.map(({ id, name }) => (
+        <SelectItem key={id}>{name}</SelectItem>
       ))}
     </Select>
   )

@@ -6,8 +6,8 @@ const Root = () => {
   return (
     <>
       <SideBar />
-      <main className="h-screen p-12 sm:ml-72 bg-slate-50">
-        <div className="flex flex-col gap-8 p-10 bg-white border rounded-md border-slate-100">
+      <main className="min-h-screen p-12 h-fit sm:ml-72 bg-gray-50">
+        <div className="flex flex-col gap-8 p-10 bg-white border border-gray-100 rounded-md max-w-[600px]">
           <Outlet />
         </div>
       </main>

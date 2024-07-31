@@ -1,45 +1,56 @@
 import { ChevronDown } from 'lucide-react'
-import type { ListBoxItemProps, SelectProps } from 'react-aria-components'
-import {
-  Select as AriaSelect,
-  Button,
-  Label,
-  ListBox,
-  ListBoxItem,
-  Popover,
-  SelectValue,
-} from 'react-aria-components'
+import type { ListBoxItemProps } from 'react-aria-components'
+import * as RAC from 'react-aria-components'
+import { FieldError } from './FieldError'
 
-interface MySelectProps<T extends object>
-  extends Omit<SelectProps<T>, 'children'> {
+interface props<T extends object> extends Omit<RAC.SelectProps<T>, 'children'> {
   label?: string
   items?: Iterable<T>
+  errorMessage?: string | ((validation: RAC.ValidationResult) => string)
+  fullWidth?: boolean
   children: React.ReactNode | ((item: T) => React.ReactNode)
 }
 
-export function Select<T extends object>({
+export const Select = <T extends object>({
   label,
   children,
+  errorMessage,
+  fullWidth = false,
   items,
   ...props
-}: MySelectProps<T>) {
+}: props<T>) => {
   return (
-    <AriaSelect {...props} className="w-full ">
-      <Label>{label}</Label>
-      <Button className="flex items-center justify-between w-full px-3 py-2 font-normal border rounded border-slate-200">
-        <SelectValue />
+    <RAC.Select
+      {...props}
+      className={`select flex flex-col gap-1 group ${
+        fullWidth ? `w-full` : `w-fit`
+      }`}
+    >
+      <RAC.Label className="mt-4 mb-2.5 font-semibold text-sm">
+        {label}
+      </RAC.Label>
+      <RAC.Button className="flex items-center justify-between w-full gap-8 px-3 py-2 font-normal border border-gray-200 rounded-md outline-none focus-visible:ring ring-indigo-500">
+        <RAC.SelectValue />
         <ChevronDown />
-      </Button>
-      <Popover
-        maxHeight={200}
-        className="min-w-[--trigger-width] overflow-auto rounded-md border border-slate-200 bg-white p-1 shadow-md"
+      </RAC.Button>
+      <FieldError>{errorMessage}</FieldError>
+      <RAC.Popover
+        maxHeight={300}
+        className="min-w-[--trigger-width] overflow-auto rounded-md border border-gray-200 bg-white p-1 shadow-md"
       >
-        <ListBox items={items}>{children}</ListBox>
-      </Popover>
-    </AriaSelect>
+        <RAC.ListBox className="flex flex-col p-1 outline-none" items={items}>
+          {children}
+        </RAC.ListBox>
+      </RAC.Popover>
+    </RAC.Select>
   )
 }
 
-export function SelectItem(props: ListBoxItemProps) {
-  return <ListBoxItem {...props} />
+export const SelectItem = (props: ListBoxItemProps) => {
+  return (
+    <RAC.ListBoxItem
+      className="px-3 py-2 rounded-md outline-none cursor-pointer hover:bg-indigo-500 hover:text-white focus-visible:ring ring-indigo-500"
+      {...props}
+    />
+  )
 }
