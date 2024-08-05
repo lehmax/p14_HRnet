@@ -51,7 +51,7 @@ export const DatePicker = <T extends RAC.DateValue>({
                 {date => (
                   <RAC.CalendarCell
                     date={date}
-                    className="flex items-center justify-center rounded-full outline-none cursor-default w-9 h-9 outside-month:text-gray-300 hover:bg-gray-100 pressed:bg-gray-200 selected:bg-violet-700 selected:text-white focus-visible:ring ring-indigo-500 ring-offset-2"
+                    className={`flex items-center justify-center rounded-full outline-none cursor-pointer w-9 h-9 outside-month:text-gray-300 hover:bg-gray-100 pressed:bg-gray-200 selected:bg-indigo-700 focus:bg-indigo-700 focus:text-white selected:text-white focus-visible:ring ring-indigo-500 ring-offset-2`}
                   />
                 )}
               </RAC.CalendarGridBody>
