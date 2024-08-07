@@ -1,11 +1,14 @@
-import { FormEvent, PropsWithChildren } from 'react'
+import { FormEvent, useState } from 'react'
 import * as RAC from 'react-aria-components'
 import { useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
 import { BriefcaseBusiness, CircleUserRound, House } from 'lucide-react'
+
 import { DatePicker } from '../../components/DatePicker'
 import { FieldError } from '../../components/FieldError'
+import Fieldset from '../../components/Fieldset'
+import { Modal } from '../../components/Modal'
 import { Select, SelectItem } from '../../components/Select'
 import { TextField } from '../../components/TextField'
 import Title from '../../components/Title'
@@ -36,12 +39,14 @@ interface FormValues extends Record<string, string | object> {
 }
 
 const EmployeeForm = () => {
+  const [isOpen, setOpen] = useState(false)
   const dispatch = useDispatch()
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const formData = new FormData(event.currentTarget)
+    const form = event.currentTarget
+    const formData = new FormData(form)
     const formValues: FormValues = { address: {} }
 
     formData.forEach((value, key) => {
@@ -53,82 +58,72 @@ const EmployeeForm = () => {
     })
 
     dispatch(addEmployee(formValues))
-  }
-
-  interface FieldsetProps extends PropsWithChildren {
-    title: string
-    icon?: React.ReactNode
-  }
-
-  const Fieldset = ({ title, icon, children }: FieldsetProps) => {
-    return (
-      <fieldset className="my-4">
-        <span className="flex items-center gap-1">
-          {icon}
-          <legend className="text-lg font-bold">{title}</legend>
-        </span>
-        <div>{children}</div>
-      </fieldset>
-    )
+    setOpen(true)
+    form.reset()
   }
 
   return (
-    <RAC.Form onSubmit={onSubmit} className="flex flex-col">
-      <Fieldset
-        title="Personnal information"
-        icon={<CircleUserRound className="text-indigo-500" />}
-      >
-        <div className="flex w-full gap-4">
-          <TextField
-            label="First Name"
-            name="firstName"
+    <>
+      <RAC.Form onSubmit={onSubmit} className="flex flex-col">
+        <Fieldset
+          title="Personnal information"
+          icon={<CircleUserRound className="text-indigo-500" />}
+        >
+          <div className="flex w-full gap-4">
+            <TextField
+              label="First Name"
+              name="firstName"
+              isRequired
+              fullWidth={true}
+            />
+            <TextField
+              label="Last Name"
+              name="LastName"
+              isRequired
+              fullWidth={true}
+            />
+          </div>
+          <DatePicker
+            label="Date of Birth"
+            name="dateOfBirth"
+            id="date-of-birth"
             isRequired
-            fullWidth={true}
           />
-          <TextField
-            label="Last Name"
-            name="LastName"
+        </Fieldset>
+        <Fieldset title="Address" icon={<House className="text-indigo-500" />}>
+          <TextField label="Street" name="street" fullWidth={true} isRequired />
+          <div className="flex items-center w-full gap-4">
+            <TextField label="City" name="city" isRequired />
+            <RAC.NumberField minValue={0} isRequired>
+              <RAC.Label>ZipCode</RAC.Label>
+              <RAC.Input className="flex items-center w-full px-3 py-2 border border-gray-200 rounded-md outline-none max-w-20 focus-visible:ring ring-indigo-500" />
+              <FieldError />
+            </RAC.NumberField>
+          </div>
+          <StatesSelect />
+        </Fieldset>
+        <Fieldset
+          title="Professional information"
+          icon={<BriefcaseBusiness className="text-indigo-500" />}
+        >
+          <DepartmentSelect />
+          <DatePicker
+            label="Start Date"
+            name="startDate"
+            id="start-date"
             isRequired
-            fullWidth={true}
           />
+        </Fieldset>
+        <div className="right-0 place-self-end">
+          <RAC.Button className="btn-primary" type="submit">
+            Save
+          </RAC.Button>
         </div>
-        <DatePicker
-          label="Date of Birth"
-          name="dateOfBirth"
-          id="date-of-birth"
-          isRequired
-        />
-      </Fieldset>
-      <Fieldset title="Address" icon={<House className="text-indigo-500" />}>
-        <TextField label="Street" name="street" fullWidth={true} isRequired />
-        <div className="flex items-center w-full gap-4">
-          <TextField label="City" name="city" isRequired />
-          <RAC.NumberField minValue={0} isRequired>
-            <RAC.Label>ZipCode</RAC.Label>
-            <RAC.Input className="flex items-center w-full px-3 py-2 border border-gray-200 rounded-md outline-none max-w-20 focus-visible:ring ring-indigo-500" />
-            <FieldError />
-          </RAC.NumberField>
-        </div>
-        <StatesSelect />
-      </Fieldset>
-      <Fieldset
-        title="Professional information"
-        icon={<BriefcaseBusiness className="text-indigo-500" />}
-      >
-        <DepartmentSelect />
-        <DatePicker
-          label="Start Date"
-          name="startDate"
-          id="start-date"
-          isRequired
-        />
-      </Fieldset>
-      <div className="right-0 place-self-end">
-        <RAC.Button className="btn-primary" type="submit">
-          Save
-        </RAC.Button>
-      </div>
-    </RAC.Form>
+      </RAC.Form>
+      <Modal type="success" isOpen={isOpen} onOpenChange={setOpen}>
+        <p className="text-lg font-bold">Employee Created!</p>
+      </Modal>
+    </>
   )
 }
 
