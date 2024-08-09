@@ -1,16 +1,13 @@
 import { UserPlus } from 'lucide-react'
-import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import Title from '../../components/Title'
 import useDocumentTitle from '../../hooks/useDocumentTitle'
 
-import { EmployeesState } from '../../features/employees/employeesStore'
+import { useAppSelector } from '../../hooks'
 
 const Employees = () => {
-  const employees = useSelector((state: EmployeesState) => state.employees)
+  const employees = useAppSelector(state => state.employees.data)
   useDocumentTitle('Employees')
-
-  console.log(employees)
 
   return (
     <>

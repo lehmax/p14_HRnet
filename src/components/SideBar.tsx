@@ -11,7 +11,7 @@ const SideBar = () => {
   ]
 
   return (
-    <aside className="fixed top-0 left-0 z-10 flex flex-col items-center h-screen gap-8 p-8 border-r-2 w-72 border-gray-100">
+    <aside className="fixed top-0 left-0 z-10 flex flex-col items-center h-screen gap-8 p-8 border-r-2 border-gray-100 w-72">
       <strong className="text-3xl font-bold">
         <span className="font-black text-indigo-400">HR</span>net
       </strong>
