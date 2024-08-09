@@ -4,11 +4,11 @@ import { initEmployees } from './data'
 import { Employee } from './types'
 
 export interface EmployeesState {
-  employees: Partial<Employee>[]
+  data: Partial<Employee>[]
 }
 
 const initialState: EmployeesState = {
-  employees: initEmployees,
+  data: initEmployees,
 }
 
 export const employeesSlice = createSlice({
@@ -19,7 +19,7 @@ export const employeesSlice = createSlice({
       state: EmployeesState,
       action: PayloadAction<Partial<Employee>>
     ) => {
-      state.employees.push(action.payload)
+      state.data.push(action.payload)
     },
   },
 })

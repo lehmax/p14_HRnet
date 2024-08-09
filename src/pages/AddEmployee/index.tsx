@@ -34,10 +34,6 @@ const AddEmployee = () => {
   )
 }
 
-interface FormValues extends Record<string, string | object> {
-  address: Record<string, string>
-}
-
 const EmployeeForm = () => {
   const [isOpen, setOpen] = useState(false)
   const dispatch = useDispatch()
@@ -47,14 +43,10 @@ const EmployeeForm = () => {
 
     const form = event.currentTarget
     const formData = new FormData(form)
-    const formValues: FormValues = { address: {} }
+    const formValues: Record<string, any> = {}
 
     formData.forEach((value, key) => {
-      if (['state', 'street', 'zipCode', 'city'].includes(key)) {
-        formValues.address[key] = value.toString()
-      } else {
-        formValues[key] = value.toString()
-      }
+      formValues[key] = value
     })
 
     dispatch(addEmployee(formValues))

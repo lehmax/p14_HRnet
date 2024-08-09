@@ -1,18 +1,20 @@
-export interface Address {
+type Address = {
   street: string
   city: string
   zipCode: string
   state: string
 }
 
-interface Person {
+type Person = {
   firstName: string
   lastName: string
   dateOfBirth: string
-  address: Partial<Address>
 }
 
-export interface Employee extends Person {
+type PersonWithAddress = Person & Address
+
+export type Employee = PersonWithAddress & {
+  id: number
   department: string
   startDate: string
 }
